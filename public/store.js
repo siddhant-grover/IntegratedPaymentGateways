@@ -25,14 +25,47 @@ function ready() {
 
     document.getElementsByClassName('btn-purchase')[0].addEventListener('click', purchaseClicked)
 }
+var stripe = Stripe(stripePublicKey);
 
-function purchaseClicked() {
-    alert('Thank you for your purchase')
-    var cartItems = document.getElementsByClassName('cart-items')[0]
-    while (cartItems.hasChildNodes()) {
-        cartItems.removeChild(cartItems.firstChild)
-    }
-    updateCartTotal()
+function purchaseClicked() { //change this so when we click on purchase button 
+    // alert('Thank you for your purchase')
+    // var cartItems = document.getElementsByClassName('cart-items')[0]
+    // while (cartItems.hasChildNodes()) {
+    //     cartItems.removeChild(cartItems.firstChild)
+    // }
+    // updateCartTotal()
+    priceElement = document.getElementsByClassName('cart-total-price')[0]
+    var amount = parseFloat((parseFloat(priceElement.innerText.replace('$', '')) * 100).toFixed(2)) //converting to cents
+console.log(typeof(amount)+'price')
+    fetch("/create-checkout-session", {
+        method: "POST",
+        body:JSON.stringify({
+            amount,
+            currency:'USD',
+            name:'Generic Store Items',
+        }),
+        headers: {
+            "Content-Type": "application/json"
+          }
+    
+      })
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (session) {
+          return stripe.redirectToCheckout({ sessionId: session.id });
+        })
+        .then(function (result) {
+          // If redirectToCheckout fails due to a browser or network
+          // error, you should display the localized error message to your
+          // customer using error.message.
+          if (result.error) {
+            alert(result.error.message);
+          }
+        })
+        .catch(function (error) {
+          console.error("Error:", error);
+        });
 }
 
 function removeCartItem(event) {
