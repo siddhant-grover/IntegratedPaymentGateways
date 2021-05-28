@@ -36,7 +36,8 @@ function purchaseClicked() { //change this so when we click on purchase button
     // updateCartTotal()
     priceElement = document.getElementsByClassName('cart-total-price')[0]
     var amount = parseFloat((parseFloat(priceElement.innerText.replace('$', '')) * 100).toFixed(2)) //converting to cents
-console.log(typeof(amount)+'price')
+console.log(document.getElementById('gateways').value)
+if(document.getElementById('gateways').value==='Stripe'){
     fetch("/create-checkout-session", {
         method: "POST",
         body:JSON.stringify({
@@ -66,6 +67,33 @@ console.log(typeof(amount)+'price')
         .catch(function (error) {
           console.error("Error:", error);
         });
+}
+if(document.getElementById('gateways').value==='Paypal'){
+    fetch("/pay", {
+        method: "POST",
+        body:JSON.stringify({
+            amount:parseFloat(amount/100).toFixed(2),
+            currency:'USD',
+            name:'Generic Store Items',
+            description:'Our products are high quality'
+        }),
+        headers: {
+            "Content-Type": "application/json"
+          }
+    
+      })
+      .then((res) => {
+          return res.json()
+      })
+      .then(data=>{
+        //console.log(data)
+        window.location = data.forwardLink
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+}
 }
 
 function removeCartItem(event) {
