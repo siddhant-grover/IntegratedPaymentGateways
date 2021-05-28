@@ -5,9 +5,11 @@
         <meta name="description" content="This is the description">
         <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch" defer></script>
         <script src="https://js.stripe.com/v3/"></script>
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
         <link rel="stylesheet" href="styles.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script> var stripePublicKey = '<%= stripePublicKey%>' // now we can access stripePublicKey in client side js 
-        
+        var KEY_ID = '<%=KEY_ID%>'
         </script>
         <script src="store.js" defer></script>
 
@@ -87,7 +89,7 @@
                 <h2 style="color: aliceblue;">Refrences - ></h2>
                 <ul class="nav footer-nav">
                     <li>
-                        <a href="https://www.youtube.com" target="_blank">
+                        <a href="https://www.youtube.com/watch?v=mI_-1tbIXQI" target="_blank">
                             <img src="Images/YouTube Logo.png">
                         </a>
                     </li>
@@ -97,7 +99,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="https://razorpay.com/docs/" target="_blank">
+                        <a href="https://razorpay.com/docs/payment-gateway/web-integration/standard/" target="_blank">
                             Razorpay docs
                         </a>
                     </li>

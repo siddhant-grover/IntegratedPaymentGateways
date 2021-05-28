@@ -27,7 +27,7 @@ function ready() {
 }
 var stripe = Stripe(stripePublicKey);
 
-function purchaseClicked() { //change this so when we click on purchase button 
+function purchaseClicked(e) { //change this so when we click on purchase button 
     // alert('Thank you for your purchase')
     // var cartItems = document.getElementsByClassName('cart-items')[0]
     // while (cartItems.hasChildNodes()) {
@@ -36,6 +36,10 @@ function purchaseClicked() { //change this so when we click on purchase button
     // updateCartTotal()
     priceElement = document.getElementsByClassName('cart-total-price')[0]
     var amount = parseFloat((parseFloat(priceElement.innerText.replace('$', '')) * 100).toFixed(2)) //converting to cents
+    if(amount === 0){
+        alert("Buy some Products")
+        return;
+    }
 console.log(document.getElementById('gateways').value)
 if(document.getElementById('gateways').value==='Stripe'){
     fetch("/create-checkout-session", {
@@ -92,6 +96,49 @@ if(document.getElementById('gateways').value==='Paypal'){
       .catch((err) => {
         console.log(err)
       })
+
+}
+
+if(document.getElementById('gateways').value==='Razorpay'){
+    fetch('/order',{
+        method:'POST',//pass body values 
+        body:JSON.stringify({
+            amount:amount,
+            currency:'USD'
+
+        }),
+        headers:{"Content-Type":"application/json"}
+
+    })
+    .then(resp=>resp.json())
+    .then(info=>{
+        var options = {
+    "key": KEY_ID, // Enter the Key ID generated from the Dashboard
+    // "amount": "50000", // Amount is in currency sub units. Default currency is INR. Hence, 50000 refers to 50000 paise
+    // "currency": "INR",
+    "name": "Music Store",
+    "description": "Test Transactions",
+    "image": "./images/Album 1.png",
+    "order_id": info.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "callback_url": "/is-order-completed",//send a post req to this url
+    "prefill": {//info from ui - logged in user
+        "name": "Gaurav Kumar",
+        "email": "gaurav.kumar@example.com",
+        "contact": "9999999999"
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+};
+
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+    e.preventDefault();
+        
+        })
 
 }
 }

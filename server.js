@@ -10,11 +10,20 @@ const stripeSecretKey = process.env.STRIPE_SECRET_KEY
 const stripePublicKey = process.env.STRIPE_PUBLIC_KEY
 const stripe = require('stripe')(stripeSecretKey);
 
+const Razorpay = require('razorpay')
+let KEY_ID= "rzp_test_qRDRpOoJR0OGFp"
+let KEY_SECRET = "pOCYTUxxeoTKVJxENaLMbmj2"
+const razorpay = new Razorpay({//initailize razorpay 
+    key_id:KEY_ID,
+    key_secret:KEY_SECRET
+})
+
 
 const express = require('express');
 const app = express();
 const fs = require('fs')//allow us to read diff files 
 app.use(express.json());
+app.use(express.urlencoded({extended:false}))
 app.use(cors());
 
 app.set('view engine','ejs')//ejs , front end use ejs , in order to render views
@@ -29,7 +38,8 @@ app.get('/store',(req,res)=>{
         else{
             res.render('store.ejs',{//as we r using express by default all the views that are rendered with render method , need to live in a folder called views 
                     items:JSON.parse(data),//passing items.json data in store.js as an items var 
-                    stripePublicKey:stripePublicKey
+                    stripePublicKey:stripePublicKey,
+                    KEY_ID
             })//render our store page , but as we want to use values from our server in the html page save it as ejs file
         }
     })
@@ -156,6 +166,40 @@ app.get('/stripe/cancel', function(req, res){
 })
 app.get('/stripe/success', function(req, res){ 
   res.render('success') 
+})
+
+
+
+//RAZORPAY
+
+
+app.post('/order',(req,res)=>{ //make a req from client and client recives an order_id
+    console.log(req.body)
+    let options = {
+        amount: req.body.amount,  // amount in the smallest currency unit
+        currency: req.body.currency,
+        //receipt: "order_rcptid_11"//we can use an unique idd from npm (like uuid), and generate a recipt everytime you create an order 
+      };
+      razorpay.orders.create(options, function(err, order) {    //create order from the server , specifies the amt u gonna pay and currency (non mutable)
+      //  console.log(order);
+        res.json(order)
+      });
+})
+
+
+app.post('/is-order-completed',(req,res)=>{
+   
+    console.log(req.body)//you can collect  "razorpay_payment_id" ,"razorpay_order_id","razorpay_signature" from body and use them to verify the signature and Make provisions to store these fields on your server/db.
+    
+    razorpay.payments.fetch(req.body.razorpay_payment_id).then((paymentDoc)=>{
+        if(paymentDoc.status=='captured'){
+            console.log('success')
+            res.send('Payment success')
+        }
+        else{
+            //res.redirect('/')
+        }
+    })
 })
 
 
