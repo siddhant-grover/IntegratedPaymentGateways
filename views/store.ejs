@@ -18,7 +18,7 @@
     <body>
         <header class="main-header">
             <nav class="main-nav nav">
-                <ul>
+                <ul class="main-nav-ul">
                     <li><a href="index.html">HOME</a></li>
                     <li><a href="store">STORE</a></li>
                     
@@ -77,7 +77,7 @@
             </div>
           
             <label for="gateways" style="font-weight:bold;color: black;padding-right:5%;font-size:20px;">Choose a payment method:</label>
-            <select name="cars" id="gateways" style="width: 20%;font-weight: bold;color:#2D9CDB;">
+            <select name="cars" id="gateways" ">
                 <option value="Stripe">Stripe</option>
                 <option value="Paypal">Paypal</option>
                 <option value="Razorpay">Razorpay</option>
@@ -88,8 +88,8 @@
         </section>
         <footer class="main-footer">
             <div class="container main-footer-container">
-                <h2 style="color: aliceblue;">Refrences - ></h2>
-                <ul class="nav footer-nav">
+                <h2 style="color: aliceblue;font-size: 100%;">Refrences</h2>
+                <ul class="nav footer-nav" >
                     <li>
                         <a href="https://www.youtube.com/watch?v=mI_-1tbIXQI" target="_blank">
                             <img src="Images/YouTube Logo.png">
@@ -103,6 +103,11 @@
                     <li>
                         <a href="https://razorpay.com/docs/payment-gateway/web-integration/standard/" target="_blank">
                             Razorpay docs
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.npmjs.com/package/paypal-rest-sdk" target="_blank">
+                            Paypal rest sdk
                         </a>
                     </li>
                 </ul>

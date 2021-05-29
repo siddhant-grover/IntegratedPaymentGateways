@@ -57,7 +57,7 @@ app.post('/create-checkout-session', async (req, res) => {
             currency: req.body.currency,
             product_data: {
               name: req.body.name,
-              images: ['https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/rainbow-rose-michelle-wittensoldner.jpg'],
+              images: [req.body.image],
             },
             unit_amount: req.body.amount,
           },
@@ -162,10 +162,10 @@ app.post('/create-checkout-session', async (req, res) => {
 
 
 app.get('/stripe/cancel', function(req, res){ 
-    res.render('cancel') 
+    res.send('Cancelled') 
 })
 app.get('/stripe/success', function(req, res){ 
-  res.render('success') 
+  res.send('Success') 
 })
 
 
@@ -189,7 +189,7 @@ app.post('/order',(req,res)=>{ //make a req from client and client recives an or
 
 app.post('/is-order-completed',(req,res)=>{
    
-    console.log(req.body)//you can collect  "razorpay_payment_id" ,"razorpay_order_id","razorpay_signature" from body and use them to verify the signature and Make provisions to store these fields on your server/db.
+    //console.log(req.body)//you can collect  "razorpay_payment_id" ,"razorpay_order_id","razorpay_signature" from body and use them to verify the signature and Make provisions to store these fields on your server/db.
     
     razorpay.payments.fetch(req.body.razorpay_payment_id).then((paymentDoc)=>{
         if(paymentDoc.status=='captured'){

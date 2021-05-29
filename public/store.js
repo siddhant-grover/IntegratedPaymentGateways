@@ -48,6 +48,8 @@ if(document.getElementById('gateways').value==='Stripe'){
             amount,
             currency:'USD',
             name:'Generic Store Items',
+            image:'https://onlinecourses.one/wp-content/uploads/2019/08/Best-Adobe-After-Effects-Course-Class-Programs-Tutorial-Training-Certification-Online.jpg'
+            
         }),
         headers: {
             "Content-Type": "application/json"
@@ -130,7 +132,7 @@ if(document.getElementById('gateways').value==='Razorpay'){
         "address": "Razorpay Corporate Office"
     },
     "theme": {
-        "color": "#3399cc"
+        "color": "#000000"
     }
 };
 
