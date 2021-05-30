@@ -8,7 +8,7 @@
         <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
         <link rel="stylesheet" href="styles.css" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script> var stripePublicKey = '<%= stripePublicKey%>' // now we can access stripePublicKey in client side js 
+        <script> var stripePublicKey = '<%= stripePublicKey%>' 
         var KEY_ID = '<%=KEY_ID%>'
         </script>
         <script src="store.js" defer></script>
@@ -28,11 +28,9 @@
         <section class="container content-section">
             <h2 style="text-align: center;">MUSIC</h2>
             <div class="shop-items">
-            <% items.music.forEach(function(item){ %><!-- all the code inside here will execute on actual serve before its send to front end client  -->
-                <!-- server has total control over items our front end uses , and total control when we send back the diff items the person purchases in order to bill the credit card -->
-            
-                <div class="shop-item" data-item-id="<%= item.id%>"> <!--put id on our item-->
-                    <span class="shop-item-title"><%=item.name %></span> <!-- =  if you wanna render in the code(screen) -->
+            <% items.music.forEach(function(item){ %>
+                <div class="shop-item" data-item-id="<%= item.id%>">
+                    <span class="shop-item-title"><%=item.name %></span> 
                     <img class="shop-item-image" src="Images/<%= item.imgName%>">
                     <div class="shop-item-details">
                         <span class="shop-item-price">$<%=item.price /100%></span>
