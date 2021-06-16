@@ -5,21 +5,35 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <meta name="description" content="This is the description">
+        <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch" defer></script>
+        <script src="https://js.stripe.com/v3/"></script>
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
         <link rel="stylesheet" href="styles.css" />
+        
     </head>
     <body>
+        
         <header class="main-header">
             <nav class="nav main-nav">
                 <ul class="main-nav-ul">
-                    <li><a href="index.html">HOME</a></li>
-                    <li><a href="store">STORE</a></li>
+                    <li>Payment integration</li>
                 </ul>
             </nav>
         </header>
         <section style="text-align:center;margin-top: 10%;">
-        <div><b>Payment integration</b></div><br>
-        <div>Navigate to <b>STORE</b> to purchase items</div>
-        <div style="margin-top: 10%;">Description - Select some items add them to cart , select a payment method from the dropdown and click purchase </div>
+            <input type="number"  id="total-price" value='0' style="margin-bottom:100px";  /> <b>$</b><br>
+        <label for="gateways" style="font-weight:bold;color: black;padding-right:5%;font-size:20px;">Choose a payment method:</label>
+        <select name="cars" id="gateways" ">
+            <option value="Stripe">Stripe</option>
+            <option value="Paypal">Paypal</option>
+            <option value="Razorpay">Razorpay</option>
+          <!-- <option value="PayU">PayU</option> -->
+        </select>
+        
+        <button style="margin-top:10%" onclick="purchaseClicked(event)" class="btn btn-primary btn-purchase" type="button">PURCHASE</button>
         </section>
+        <script src="store.js"></script>
     </body>
 </html>

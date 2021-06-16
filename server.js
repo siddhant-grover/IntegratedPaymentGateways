@@ -32,24 +32,8 @@ const razorpay = new Razorpay({
 const paypal = require("paypal-rest-sdk");
 paypal.configure({
   mode: "sandbox", //sandbox or live
-  client_id:process.env.CLIENT_ID,
-  client_secret:process.env.CLIENT_SECRET,
-});
-
-app.get("/store", (req, res) => {
-  fs.readFile("items.json", function (error, data) {
-    //data is the info in the file
-
-    if (error) {
-      res.status(500).end();
-    } else {
-      res.render("store.ejs", {
-        items: JSON.parse(data), //passing items.json data
-        stripePublicKey: stripePublicKey,
-        KEY_ID,
-      });
-    }
-  });
+  client_id: process.env.CLIENT_ID,
+  client_secret: process.env.CLIENT_SECRET,
 });
 
 app.post("/stripe", async (req, res) => {
